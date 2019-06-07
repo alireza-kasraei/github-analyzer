@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template}">
+<head>
+<title>Content page 1</title>
+<link th:href="@{/resources/DataTables/datatables.min.css}"
+	rel="stylesheet">
+</head>
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Search Public Repositories</h3>
+			</div>
+			<div class="panel-body">
+				<form class="form-inline">
+					<div class="form-group">
+						<label for="keyword">Keyword :</label> <input type="text"
+							class="form-control" id="keyword" placeholder="spring">
+					</div>
+
+					<button type="button" class="btn btn-primary"
+						onclick="initTable();">Search</button>
+				</form>
+				<hr />
+				<table id="reposTable" class="table table-striped table-bordered"
+					style="width: 100%">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Full Name</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+
+
+
+
+	</div>
+
+	<th:block layout:fragment="script">
+		<script th:src="@{/resources/DataTables/datatables.min.js}"></script>
+
+		<script type="text/javascript">
+			function initTable() {
+				var element = document.getElementById('keyword');
+				if (element.value != null && element.value.length != 0) {
+					$('#reposTable')
+							.DataTable(
+									{
+										"processing" : true,
+										"serverSide" : true,
+										"filter" : false,
+										"ajax" : {
+											"url" : "/github/repo",
+											"type" : "POST",
+											"data" : function(d) {
+												d.keyword = $('#keyword').val();
+											}
+										},
+										"columns" : [ {
+											"data" : "name"
+										}, {
+											"data" : "full_name"
+										} ],
+										columnDefs : [ {
+											"render" : function(data, type, row) {
+												return '<a class="btn btn-success" href="/analyze?repo='
+														+ row.full_name
+														+ '">Analyze</a>';
+
+											},
+											"targets" : 2
+										} ]
+									});
+				}
+			}
+		</script>
+	</th:block>
+
+
+</body>
+</html>

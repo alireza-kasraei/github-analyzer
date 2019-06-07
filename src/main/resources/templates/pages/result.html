@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template}">
+<head>
+<title>Result</title>
+</head>
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<p th:text="'Repo : ' + ${repoName}"></p>
+			</div>
+			<div class="panel-body">
+				<div class="panel panel-default">
+					<div class="panel-heading">Contributors List</div>
+					<div class="panel-body">
+						<ul class="list-group">
+							<li class="list-group-item"
+								th:each="contributor : ${contributors}">
+								[[${contributor}]]
+							</li>
+						</ul>
+					</div>
+				</div>
+				<hr/>
+				<div class="panel panel-default">
+					<div class="panel-heading">Contributors Impact</div>
+					<div class="panel-body">
+						<ul class="list-group">
+							<li class="list-group-item"
+								th:each="userImpact : ${userImpacts}">
+								[[${userImpact.key}]]<span th:text="${userImpact.value}" class="badge">14</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>
