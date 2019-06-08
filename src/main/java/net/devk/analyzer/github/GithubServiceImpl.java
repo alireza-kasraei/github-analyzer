@@ -53,7 +53,7 @@ class GithubServiceImpl implements GithubServices {
 
 	@Override
 	public Map<String, Long> findUserImpact(List<Commit> commits) {
-		return commits.stream().map(c -> c.getAuthor().getLogin())
+		return commits.stream().map(c -> c.getCommitDetails().getAuthor().getName())
 				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 	}
 
@@ -64,7 +64,7 @@ class GithubServiceImpl implements GithubServices {
 		uriVariables.put("per_page", pageSize);
 		uriVariables.put("repo", fullRepoName);
 		ResponseEntity<List<Commit>> responseEntity = restTemplate.exchange(
-				BASE_URL+"/repos/"+fullRepoName+"/commits?page={page}&per_page={per_page}", HttpMethod.GET, null,
+				BASE_URL + "/repos/" + fullRepoName + "/commits?page={page}&per_page={per_page}", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<Commit>>() {
 				}, uriVariables);
 		return responseEntity.getBody();

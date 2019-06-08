@@ -48,6 +48,7 @@ public class GithubController {
 		final List<String> contributors = githubServices.findContributors(repo);
 		model.addAttribute("contributors", contributors);
 		List<Commit> commits = githubServices.findCommits(repo,1,100);
+		model.addAttribute("commits", commits);
 		Map<String, Long> userImpact = githubServices.findUserImpact(commits);
 		model.addAttribute("userImpacts", userImpact);
 		return "pages/result";

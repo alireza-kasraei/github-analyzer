@@ -4,6 +4,7 @@
 	layout:decorate="~{template}">
 <head>
 <title>Result</title>
+<link th:href="@{/resources/timeline/timeline.css}" rel="stylesheet">
 </head>
 <body>
 
@@ -19,26 +20,53 @@
 					<div class="panel-body">
 						<ul class="list-group">
 							<li class="list-group-item"
-								th:each="contributor : ${contributors}">
-								[[${contributor}]]
+								th:each="contributor : ${contributors}">[[${contributor}]]
 							</li>
 						</ul>
 					</div>
 				</div>
-				<hr/>
+				<hr />
 				<div class="panel panel-default">
 					<div class="panel-heading">Contributors Impact</div>
 					<div class="panel-body">
 						<ul class="list-group">
-							<li class="list-group-item"
-								th:each="userImpact : ${userImpacts}">
-								[[${userImpact.key}]]<span th:text="${userImpact.value}" class="badge">14</span>
+							<li class="list-group-item" th:each="userImpact : ${userImpacts}">
+								[[${userImpact.key}]]<span th:text="${userImpact.value}"
+								class="badge">14</span>
 							</li>
 						</ul>
+						<hr />
+
+						<div class="container">
+							<div class="row">
+								<div class="col-md-12">
+
+									<ul class="timeline">
+										<li th:each="commit : ${commits}">
+											<div class="timeline-badge info">
+												<span class="fa fa-newspaper-o"></span>
+											</div>
+											<div class="timeline-date">
+												<div class="year"
+													th:text="${#dates.format(commit.commitDetails.committer.date, 'dd-MM-yyyy HH:mm')}"></div>
+											</div>
+											<div class="timeline-panel">
+												<div class="timeline-heading">
+													<div class="timeline-title"
+														th:text="${commit.commitDetails.committer.name}"></div>
+												</div>
+												<div class="timeline-body">
+													<div class="row"
+														th:text="${commit.commitDetails.message}"></div>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
-
-
 			</div>
 		</div>
 	</div>
