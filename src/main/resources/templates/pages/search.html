@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{template}">
 <head>
-<title>Content page 1</title>
+<title>search</title>
 <link th:href="@{/resources/DataTables/datatables.min.css}"
 	rel="stylesheet">
 </head>
@@ -46,11 +46,28 @@
 			</div>
 		</div>
 
-
-
-
-
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel">Service Unavailable</h4>
+					</div>
+					<div id="modal-content" class="modal-body">Rate limit!</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
+
+
+
 
 	<th:block layout:fragment="script">
 		<script th:src="@{/resources/DataTables/datatables.min.js}"></script>
@@ -70,6 +87,11 @@
 											"type" : "POST",
 											"data" : function(d) {
 												d.keyword = $('#keyword').val();
+											},
+											error : function(xhr, error, code) {
+												$('#myModal').modal('show');
+												console.log(xhr);
+												console.log(code);
 											}
 										},
 										"columns" : [ {

@@ -45,7 +45,7 @@ class GithubServiceImpl implements GithubServices {
 	@Override
 	public List<String> findContributors(String fullRepoName) {
 		ResponseEntity<List<Contributor>> responseEntity = restTemplate.exchange(
-				String.format(BASE_URL + "/repos/%s/contributors", fullRepoName), HttpMethod.GET, null,
+				String.format("%s/repos/%s/contributors", BASE_URL, fullRepoName), HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<Contributor>>() {
 				});
 		return responseEntity.getBody().stream().map(Contributor::getLogin).collect(Collectors.toList());
@@ -64,8 +64,8 @@ class GithubServiceImpl implements GithubServices {
 		uriVariables.put("per_page", pageSize);
 		uriVariables.put("repo", fullRepoName);
 		ResponseEntity<List<Commit>> responseEntity = restTemplate.exchange(
-				BASE_URL + "/repos/" + fullRepoName + "/commits?page={page}&per_page={per_page}", HttpMethod.GET, null,
-				new ParameterizedTypeReference<List<Commit>>() {
+				String.format("%s/repos/%s/commits?page={page}&per_page={per_page}", BASE_URL, fullRepoName),
+				HttpMethod.GET, null, new ParameterizedTypeReference<List<Commit>>() {
 				}, uriVariables);
 		return responseEntity.getBody();
 	}
